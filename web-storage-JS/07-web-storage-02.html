@@ -87,7 +87,68 @@
         elUsername.innerHTML = username;
       }
 
+       // when user submit
+       elFormUsername.addEventListener('submit', function (event) {
+        event.preventDefault()
+        console.log('listener submit connect')
+
+        const formObject = new FormData(elFormUsername)
+        const formData = Object.fromEntries(formObject)
+
+        // console.log(formData, '<<< form data')
+        
+        const inputUsername = formData.username
+        if (inputUsername) {
+          // console.log(inputUsername)
+          sessionStorage.setItem('username', inputUsername)
+          elDivUsername.classList.remove('d-none')  
+          elFormUsername.classList.add('d-none')
+          elUsername.innerHTML = inputUsername
+
+          username = inputUsername
+          console.log(username , '<<< username')
+
+          elBadgeUser.classList.remove('d-none')
+          let dataPertemanan = []
+          let dataPertemananFromLS = localStorage.getItem(username)
+          if (dataPertemananFromLS) {
+            dataPertemanan = JSON.parse(dataPertemananFromLS)
+          }
+          elBadgeUser.innerHTML = dataPertemanan.length
+        } else {
+          alert("Username can't be empty !")
+        }
+      })
+
+      if (username) { 
+        elBadgeUser.classList.remove('d-none')
+        let dataPertemanan = []
+        let dataPertemananFromLS = localStorage.getItem(username)
+        if (dataPertemananFromLS) {
+          dataPertemanan = JSON.parse(dataPertemananFromLS)
+        }
+        elBadgeUser.innerHTML = dataPertemanan.length
+      }
+
       githubUsers.forEach((user) => {
+
+        let dataPertemanan = []
+
+        if (username) { 
+          let dataPertemananFromLS = localStorage.getItem(username)
+          console.log(dataPertemananFromLS, '<<< isi local storage ')
+          if (dataPertemananFromLS) {
+            dataPertemanan = JSON.parse(dataPertemananFromLS)
+          }
+        }
+        let isFollowed = false
+
+        for (let i = 0; i < dataPertemanan.length; i++) {
+          if (dataPertemanan[i] === user.login) {
+            isFollowed = true
+          }
+        }
+
         const elCol = document.createElement("div");
         elCol.classList.add("col-xs-12", "col-sm-6", "col-md-4", "col-lg-3");
 
@@ -108,7 +169,71 @@
         const elCardButton = document.createElement("button");
         elCardButton.classList.add("btn", "btn-primary", "w-100");
         elCardButton.setAttribute("type", "button");
-        elCardButton.innerHTML = "Follow";
+
+        if (isFollowed) {
+          elCardButton.classList.add('btn-success')
+          elCardButton.innerHTML = "Unfollow";
+        } else {
+          elCardButton.innerHTML = "Follow";
+        }
+
+        elCardButton.addEventListener('click', function () {
+          console.log('click button follow / unfollow')
+          console.log(user, '<<< user')
+
+          if (username) {
+            let dataPertemananFromLS = localStorage.getItem(username)
+            if (dataPertemananFromLS) {
+              dataPertemanan = JSON.parse(dataPertemananFromLS)
+            }
+          }
+
+          // console.log(dataPertemanan, '<<< data pertemanan pada klik button')
+          const usernameGithub = user.login
+          // console.log(usernameGithub, '<<< username github yang di follow / unfollow')
+
+          let findUser = false
+
+          for (let i = 0; i < dataPertemanan.length; i++) {
+            if (dataPertemanan[i] === usernameGithub) {
+              findUser = true
+            }
+          }
+
+          if (findUser === true) { 
+            let newDataPertemanan = []
+
+            for (let i = 0; i < dataPertemanan.length; i++) {
+              if (dataPertemanan[i] !== usernameGithub) { 
+                newDataPertemanan.push(dataPertemanan[i])
+              }
+            }
+
+            console.log(newDataPertemanan, '<<< new data pertemanan')
+            let newDataPertemananStr = JSON.stringify(newDataPertemanan)
+
+            if (username) {
+              localStorage.setItem(username, newDataPertemananStr)
+              elCardButton.innerHTML = 'Follow'
+              elCardButton.classList.remove('btn-success')
+              elCardButton.classList.add('btn-primary')
+
+              elBadgeUser.innerHTML = newDataPertemanan.length
+            }
+          } else {  
+            dataPertemanan.push(usernameGithub)
+
+            let dataPertemananStr = JSON.stringify(dataPertemanan)
+            if (username) { 
+              localStorage.setItem(username, dataPertemananStr)
+              elCardButton.innerHTML = 'Unfollow'
+              elCardButton.classList.add('btn-success')
+
+              elBadgeUser.innerHTML = dataPertemanan.length
+            }
+          }
+        })
+
 
         elCardBody.appendChild(elCardTitle);
         elCardBody.appendChild(elCardButton);

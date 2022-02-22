@@ -12,9 +12,17 @@ console.log("----soal 4----")
 console.log("--- console.log pertama mencetak angka 1, 2, 3, 4, 5. sedangkan console.log kedua mencetak angka 6. ---");
 // 5. Apabila terdapat ketidak samaan antara console.log pertama dan kedua, bisakah kalian memberikan penjelasan mengapa hal tersebut bisa terjadi
 console.log("----soal 5----")
+console.log("--ketidak samaan terjadi karena pada console.log pertama terjadi proses looping pada nilai variabel i yang bersifat global dimulai dari 0 sampai 5. sementara pada console.log kedua akan terjadi proses pemanggilan setelah proses looping pada console.log pertama selesai")
 
 // 6. Perbaiki baris kode dibawah sehingga ia akan menampilkan angka yang sama
 for (var i = 1; i<=5; i++) {
     console.log("first log: ", i); // 01 - Pertama
     setTimeout(() => console.log("second log: ", i), 100); // 02 - Kedua
   }
+
+
+// perbaikan
+for(let i = 1; i <= 5; i++) {
+  console.log("first log:", i); // 01 - Pertama
+  setTimeout(() => console.log("second log: ", i), 100); // 02 - Kedua
+}
