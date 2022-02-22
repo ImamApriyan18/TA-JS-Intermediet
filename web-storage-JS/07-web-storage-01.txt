@@ -1,0 +1,12 @@
+soal no.1
+1. apa itu localStorage ?
+=> localStorage merupakan salah satu medote untuk menyimpan data di web browser, yang mana data akan tetap ada meskipun web di tutup.
+
+soal no.2
+2. apa itu cookies ?
+=> cookies merupakan data javascript yang memungkinkan kita untuk menyimpan informasi user di halaman web.
+
+soal no.3
+3. Apa perbedaan antara localStorage dan sessionStorage ?
+=> localStorage memungkinkan kita untuk menyimpan data di web browser tanpa kehilangan data tersebut meskipun web browsenya ditutup.
+=> sedangkan sessionStorage memungkinkan kita untuk menyimpan data di web browser akan tetapi data kita akan kembali kosong setelah web browsenya di tutup.
