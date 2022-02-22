@@ -62,8 +62,30 @@
       const elBadgeUser = document.querySelector("#badge-user");
 
       // WEB STORAGE
-      let username = sessionStorage.getItem("username");
+      let username = sessionStorage.getItem("username", elFormUsername.value);
       let profile = localStorage.getItem(username ? username : "");
+
+      if(username){
+        elDivUsername.classList.remove("d-none");
+        elFormUsername.classList.add("d-none");
+        elUsername.innerHTML = username
+      }
+
+      elFormUsername.onsubmit = function (e){
+        e.preventDefault();
+        const dataForm = new FormData(e.target);
+        const PropsForm = Object.fromEntries(dataForm);
+
+        username = PropsForm.username;
+        sessionStorage.setItem('username', username);
+
+        elDivUsername.classList.remove("d-none");
+        elFormUsername.classList.add("d-none");
+
+        profile = localStorage.getItem(username);
+
+        elUsername.innerHTML = username;
+      }
 
       githubUsers.forEach((user) => {
         const elCol = document.createElement("div");

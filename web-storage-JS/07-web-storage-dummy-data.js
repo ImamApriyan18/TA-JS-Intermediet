@@ -1,16 +1,4 @@
-
-//let btn = document.getElementsByClassName(".btn btn-outline-primary")
-//const elFormUsername = document.querySelector("#form-username");
-//btn.onclick = login
-
-//export function login(){
-  //  let nama = elFormUsername.value;
-    //console.log(nama)
-//}
-
-
-
-const githubUsers = [
+const githubUsers= [
     {
       login: 'mojombo',
       id: 1,
